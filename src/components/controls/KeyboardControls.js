@@ -23,6 +23,7 @@ const useCodes = () => {
 
 export default function KeyboardControls() {
 	const { camera } = useThree()
+	camera.position.set( 0, 5, 5 )
 	const code = useCodes()
 	const vec = new Vector3()
 
@@ -49,7 +50,7 @@ export default function KeyboardControls() {
 		if ( code.current.has( 'KeyS' ) ) moveForward( -delta * speed )
 		if ( code.current.has( 'KeyD' ) ) moveRight( delta * speed )
 		if ( code.current.has( 'Space' ) ) moveUp( delta * speed )
-		if ( code.current.has( 'ControlLeft' ) ) moveUp( -delta * speed )
+		if ( code.current.has( 'KeyX' ) ) moveUp( -delta * speed )
 	} )
 
 	return null

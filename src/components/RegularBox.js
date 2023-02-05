@@ -17,7 +17,7 @@ export default function RegularBox( props ) {
 	const wallMap = useLoader( TextureLoader, 'assets/materials/wall.jpg' )
 
 	return (
-		<group position={props.position} >
+		<group position={props.position} scale={2} >
 			<mesh // Floor
 				{...props}
 				position={[ 0, -0.5, 0 ]}
