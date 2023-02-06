@@ -44,7 +44,7 @@ export default function KeyboardControls() {
 	}
 
 	useFrame( ( _, delta ) => {
-		const speed = code.current.has( 'ShiftLeft' ) ? 5 : 2
+		const speed = code.current.has( 'ShiftLeft' ) ? 8 : 4
 		if ( code.current.has( 'KeyW' ) ) moveForward( delta * speed )
 		if ( code.current.has( 'KeyA' ) ) moveRight( -delta * speed )
 		if ( code.current.has( 'KeyS' ) ) moveForward( -delta * speed )
