@@ -1,14 +1,16 @@
-import RegularBox from './RegularBox'
 import { useState, useEffect } from 'react'
+import RegularBox from './RegularBox'
+import { getRandomEvenInt } from './Helpers'
 
 export default function Generator( props ) {
 	const initialPosition = [ 0, 0, 0 ]
 	const [ boxes, setBoxes ] = useState( [ <RegularBox
-		key={initialPosition.join( '' )}
+		key={initialPosition.join()}
 		position={initialPosition}
 		scale={2}
 		visibleWalls={{
-			top: true,
+			top: false,
+			back: true,
 			left: true,
 			right: true,
 		}}
@@ -16,26 +18,26 @@ export default function Generator( props ) {
 	] )
 	const [ lastGeneratedBoxes, setLastGeneratedBoxes ] = useState( boxes )
 	const [ gIndex, setGIndex ] = useState( 1 )
-	let newBoxes = []
+	let generatedBoxes = []
 
 	useEffect( () => {
 		generate()
 	}, [ boxes ] )
 
 	function generate() {
-		if ( gIndex < 1 || gIndex > 5 ) {
+		if ( gIndex < 1 || gIndex > 15 ) {
 			return
 		}
 
-		newBoxes = []
+		generatedBoxes = []
 
 		for ( let i = 0; i < lastGeneratedBoxes.length; i++ ) {
-			newBoxes.push( ...generateNewBoxes( lastGeneratedBoxes[ i ] ) )
+			generatedBoxes.push( ...generateNewBoxes( lastGeneratedBoxes[ i ] ) )
 		}
 
 		setGIndex( gIndex + 1 )
-		setBoxes( boxes.concat( ...newBoxes ) )
-		setLastGeneratedBoxes( newBoxes )
+		setBoxes( boxes.concat( ...generatedBoxes ) )
+		setLastGeneratedBoxes( generatedBoxes )
 	}
 
 	function generateNewBoxes( baseBox ) {
@@ -49,51 +51,57 @@ export default function Generator( props ) {
 			{ position: [ x - baseScale, y, z ] },
 		]
 
-		const newBoxes = []
+		let generatedBoxesInProcess = []
 
 		for ( let i = 0; i < newBoxesData.length; i++ ) {
 			const { position } = newBoxesData[ i ]
 			if ( isEmptyBoxesSpace() ) {
-				newBoxes.push( ...getEmptyBoxesSpace( position, 12, 4 ) )
+				generatedBoxesInProcess.push( ...getEmptyBoxesSpace( position, 4, 2 ) )
 			} else if ( isSameBoxThanBaseBox() ) {
-				newBoxes.push( <RegularBox key={position.join( '' )} position={position} scale={2} visibleWalls={baseVisibleWalls} /> )
+				generatedBoxesInProcess.push( <RegularBox key={position.join()} position={position} scale={2} visibleWalls={baseVisibleWalls} /> )
 			} else {
-				// newBoxes.push( <RegularBox key={position.join( '' )} position={position} scale={2} visibleWalls={getRandomVisibleWall()} /> )
+				generatedBoxesInProcess.push( <RegularBox key={position.join()} position={position} scale={2} visibleWalls={getRandomVisibleWall()} /> )
 			}
 		}
 
-		return newBoxes.filter( box => !isBoxOverlaping( box ) )
+		// Find duplicate boxes
+		const occurence = {}
+		for ( const box of generatedBoxesInProcess ) {
+			occurence[ box.key ] ? occurence[ box.key ]++ : occurence[ box.key ] = 1
+		}
+
+		// Remove duplicate boxes and boxes that are already generated
+		generatedBoxesInProcess = generatedBoxesInProcess.filter( box => {
+			return ![ ...generatedBoxes, ...boxes ].find( box1 => box1.key === box.key ) && occurence[ box.key ] === 1
+		} )
+
+		return generatedBoxesInProcess
 	}
 
 	function getRandomVisibleWall() {
 		const visibleWalls = {
 			top: false,
+			back: false,
 			left: false,
 			right: false,
 		}
-		const randomWall = Math.floor( Math.random() * 3 )
-		switch ( randomWall ) {
-			case 0:
-				visibleWalls.top = true
-				break
-			case 1:
-				visibleWalls.left = true
-				break
-			case 2:
-				visibleWalls.right = true
-				break
+
+		for ( const wall in visibleWalls ) {
+			visibleWalls[ wall ] = Math.floor( Math.random() * 2 ) === 1
 		}
 		return visibleWalls
 	}
 
-	function getEmptyBoxesSpace( position, quantity, row ) {
+	function getEmptyBoxesSpace( basePos ) {
 		const newBoxes = []
-		const [ x, y, z ] = position
+		const [ x, y, z ] = basePos
+		const quantity = getRandomEvenInt( 4, 6 )
+		const row = getRandomEvenInt( 2, 4 )
 		for ( let i = 0; i < quantity; i++ ) {
 			const rowNumber = Math.floor( i / row )
 			const colNumber = i % row
 			const position = [ x + colNumber * 2, y, z + rowNumber * 2 ]
-			newBoxes.push( <RegularBox key={position.join( '' )} position={position} scale={2} visibleWalls={{
+			newBoxes.push( <RegularBox key={position.join()} position={position} scale={2} visibleWalls={{
 				top: false,
 				bottom: true,
 				left: false,
@@ -108,15 +116,7 @@ export default function Generator( props ) {
 	}
 
 	function isEmptyBoxesSpace() {
-		return Math.floor( Math.random() * 10 ) === 1
-	}
-
-	function getEmptySpaceBoxQuantity() {
-		return Math.floor( Math.random() * 8 ) + 8
-	}
-
-	function isBoxOverlaping( box2 ) {
-		return [ ...newBoxes, ...boxes ].find( box1 => box1.key === box2.key )
+		return Math.floor( Math.random() * 8 ) === 1
 	}
 
 	return (

@@ -20,8 +20,8 @@ export default function RegularBox( props ) {
 				<boxGeometry args={[ 1, 0.1, 1 ]} />
 				<meshStandardMaterial map={floorMap} />
 			</mesh>
-			{props.visibleWalls.front && (
-				<mesh // Front
+			{props.visibleWalls.top && (
+				<mesh // Top
 					position={[ 0, 0.5, 0.5 - 0.1 * 0.5 ]}
 					ref={ref}
 				>
