@@ -1,15 +1,17 @@
 import { useState, useEffect } from 'react'
-import RegularBox from './RegularBox'
-import { getRandomEvenInt } from './Helpers'
+import RegularBox from './box/RegularBox'
+import { getRandomEvenInt } from '../Helpers'
+import CrossPartBox from './box/CrossPartBox'
+import boxSpacing from './pattern/boxSpacing'
 
 export default function Generator( props ) {
 	const initialPosition = [ 0, 0, 0 ]
-	const [ boxes, setBoxes ] = useState( [ <RegularBox
+	const [ boxes, setBoxes ] = useState( [ <CrossPartBox
 		key={initialPosition.join()}
 		position={initialPosition}
 		scale={2}
 		visibleWalls={{
-			top: false,
+			top: true,
 			back: true,
 			left: true,
 			right: true,
@@ -25,7 +27,10 @@ export default function Generator( props ) {
 	}, [ boxes ] )
 
 	function generate() {
-		if ( gIndex < 1 || gIndex > 15 ) {
+		// if ( gIndex ) {
+		// 	return
+		// }
+		if ( gIndex < 1 || gIndex > 5 ) {
 			return
 		}
 
@@ -56,8 +61,10 @@ export default function Generator( props ) {
 		for ( let i = 0; i < newBoxesData.length; i++ ) {
 			const { position } = newBoxesData[ i ]
 			if ( isEmptyBoxesSpace() ) {
-				generatedBoxesInProcess.push( ...getEmptyBoxesSpace( position, 4, 2 ) )
-			} else if ( isSameBoxThanBaseBox() ) {
+				generatedBoxesInProcess.push( ...boxSpacing( position ) );
+				break;
+			}
+			else if ( isSameBoxThanBaseBox() && baseVisibleWalls ) {
 				generatedBoxesInProcess.push( <RegularBox key={position.join()} position={position} scale={2} visibleWalls={baseVisibleWalls} /> )
 			} else {
 				generatedBoxesInProcess.push( <RegularBox key={position.join()} position={position} scale={2} visibleWalls={getRandomVisibleWall()} /> )
@@ -90,25 +97,6 @@ export default function Generator( props ) {
 			visibleWalls[ wall ] = Math.floor( Math.random() * 2 ) === 1
 		}
 		return visibleWalls
-	}
-
-	function getEmptyBoxesSpace( basePos ) {
-		const newBoxes = []
-		const [ x, y, z ] = basePos
-		const quantity = getRandomEvenInt( 4, 6 )
-		const row = getRandomEvenInt( 2, 4 )
-		for ( let i = 0; i < quantity; i++ ) {
-			const rowNumber = Math.floor( i / row )
-			const colNumber = i % row
-			const position = [ x + colNumber * 2, y, z + rowNumber * 2 ]
-			newBoxes.push( <RegularBox key={position.join()} position={position} scale={2} visibleWalls={{
-				top: false,
-				bottom: true,
-				left: false,
-				right: false,
-			}} /> )
-		}
-		return newBoxes
 	}
 
 	function isSameBoxThanBaseBox() {

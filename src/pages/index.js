@@ -1,12 +1,13 @@
 import Head from 'next/head'
 import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
-import Generator from '@/components/Generator'
+import Generator from '@/components/generator/Generator'
 import { Canvas } from '@react-three/fiber'
-import KeyboardControls from '@/components/controls/KeyboardControls'
-import LookControls from '@/components/controls/LookControls'
+import KeyboardControls from '@/components/scene/controls/KeyboardControls'
+import LookControls from '@/components/scene/controls/LookControls'
 import { useEffect } from 'react'
-import InitCamera from '@/components/InitCamera'
+import InitCamera from '@/components/scene/InitCamera'
+import { TextureProvider } from '@/components/TextureContext'
 
 const inter = Inter( { subsets: [ 'latin' ] } )
 
@@ -34,7 +35,9 @@ export default function Home() {
 					<KeyboardControls />
 					<LookControls />
 					<gridHelper args={[ 100, 100, 'white', 'white' ]} />
-					<Generator />
+					<TextureProvider>
+						<Generator />
+					</TextureProvider>
 				</Canvas >
 			</main>
 		</>
