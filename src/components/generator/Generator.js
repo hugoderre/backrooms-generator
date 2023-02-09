@@ -30,7 +30,7 @@ export default function Generator( props ) {
 		// if ( gIndex ) {
 		// 	return
 		// }
-		if ( gIndex < 1 || gIndex > 5 ) {
+		if ( gIndex < 1 || gIndex > 10 ) {
 			return
 		}
 
@@ -104,7 +104,7 @@ export default function Generator( props ) {
 	}
 
 	function isEmptyBoxesSpace() {
-		return Math.floor( Math.random() * 8 ) === 1
+		return Math.floor( Math.random() * 15 ) === 1
 	}
 
 	return (

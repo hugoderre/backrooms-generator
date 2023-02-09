@@ -5,7 +5,7 @@ import { TextureContext } from '@/components/TextureContext'
 
 export default function RegularBox( props ) {
 	const ref = useRef()
-	const { floorMap, wallMap } = useContext( TextureContext );
+	const { floorMap, wallMap, ceilingMap } = useContext( TextureContext );
 
 	return (
 		<group position={props.position} scale={props.scale} >
@@ -55,42 +55,42 @@ export default function RegularBox( props ) {
 				</mesh>
 			)}
 
-			{/* <mesh // Roof
+			<mesh // Ceiling
 				position={[ 0, 1, 0 ]}
 				ref={ref}
 			>
 				<boxGeometry args={[ 1, 0.1, 1 ]} />
-				<meshStandardMaterial map={wallMap} />
-			</mesh> */}
+				<meshStandardMaterial map={ceilingMap} />
+			</mesh>
 
 		</group>
 
 	)
 }
 
-// function Wall( props ) {
-// 	const ref = useRef()
+function Wall( props ) {
+	const ref = useRef()
 
-// 	const positions = {
-// 		top: [ 0, 0.5, 0.5 - 0.1 * 0.5 ],
-// 		back: [ 0, 0.5, -0.5 + 0.1 * 0.5 ],
-// 		right: [ 0.5 - 0.1 * 0.5, 0.5, 0 ],
-// 		left: [ -0.5 + 0.1 * 0.5, 0.5, 0 ],
-// 	}
+	const positions = {
+		top: [ 0, 0.5, 0.5 - 0.1 * 0.5 ],
+		back: [ 0, 0.5, -0.5 + 0.1 * 0.5 ],
+		right: [ 0.5 - 0.1 * 0.5, 0.5, 0 ],
+		left: [ -0.5 + 0.1 * 0.5, 0.5, 0 ],
+	}
 
-// 	const rotations = {
-// 		right: [ 0, Math.PI / 2, 0 ],
-// 		left: [ 0, Math.PI / 2, 0 ],
-// 	}
+	const rotations = {
+		right: [ 0, Math.PI / 2, 0 ],
+		left: [ 0, Math.PI / 2, 0 ],
+	}
 
-// 	return (
-// 		<mesh
-// 			ref={ref}
-// 			position={positions[ props.type ]}
-// 			rotation={rotations[ props.type ]}
-// 		>
-// 			<boxGeometry args={[ 1, 1, 0.1 ]} />
-// 			<meshStandardMaterial map={props.map} />
-// 		</mesh>
-// 	)
-// }
+	return (
+		<mesh
+			ref={ref}
+			position={positions[ props.type ]}
+			rotation={rotations[ props.type ]}
+		>
+			<boxGeometry args={[ 1, 1, 0.1 ]} />
+			<meshStandardMaterial map={props.map} />
+		</mesh>
+	)
+}

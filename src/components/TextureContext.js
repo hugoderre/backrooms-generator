@@ -11,10 +11,12 @@ function TextureProvider( { children } ) {
 	floorMap.wrapT = RepeatWrapping
 	floorMap.repeat.set( 10, 10 )
 	const wallMap = useLoader( TextureLoader, 'assets/materials/wall.jpg' )
+	const ceilingMap = useLoader( TextureLoader, 'assets/materials/ceiling.jpg' )
 
 	const [ textures, setTextures ] = useState( {
 		floorMap,
-		wallMap
+		wallMap,
+		ceilingMap
 	} );
 
 	return (
