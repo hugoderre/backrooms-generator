@@ -6,7 +6,7 @@ import boxSpacing from './pattern/boxSpacing'
 
 export default function Generator( props ) {
 	const initialPosition = [ 0, 0, 0 ]
-	const [ boxes, setBoxes ] = useState( [ <CrossPartBox
+	const [ boxes, setBoxes ] = useState( [ <RegularBox
 		key={initialPosition.join()}
 		position={initialPosition}
 		scale={2}
@@ -64,7 +64,7 @@ export default function Generator( props ) {
 				generatedBoxesInProcess.push( ...boxSpacing( position ) );
 				break;
 			}
-			else if ( isSameBoxThanBaseBox() && baseVisibleWalls ) {
+			else if ( isGenerateSameRegularBoxThanPrev( baseBox ) ) {
 				generatedBoxesInProcess.push( <RegularBox key={position.join()} position={position} scale={2} visibleWalls={baseVisibleWalls} /> )
 			} else {
 				generatedBoxesInProcess.push( <RegularBox key={position.join()} position={position} scale={2} visibleWalls={getRandomVisibleWall()} /> )
@@ -99,8 +99,8 @@ export default function Generator( props ) {
 		return visibleWalls
 	}
 
-	function isSameBoxThanBaseBox() {
-		return Math.floor( Math.random() * 2 ) === 1
+	function isGenerateSameRegularBoxThanPrev( prevBox ) {
+		return prevBox.type === RegularBox && Math.floor( Math.random() * 2 ) === 1
 	}
 
 	function isEmptyBoxesSpace() {
