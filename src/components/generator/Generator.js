@@ -1,8 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import RegularBox from './box/RegularBox'
-import { getRandomEvenInt } from '../Helpers'
-import CrossPartBox from './box/CrossPartBox'
 import boxSpacing from './pattern/boxSpacing'
+import { useFrame, useThree } from '@react-three/fiber'
 
 export default function Generator( props ) {
 	const initialPosition = [ 0, 0, 0 ]
@@ -11,7 +10,7 @@ export default function Generator( props ) {
 		position={initialPosition}
 		scale={2}
 		visibleWalls={{
-			top: true,
+			top: false,
 			back: true,
 			left: true,
 			right: true,

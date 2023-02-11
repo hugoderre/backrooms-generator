@@ -1,17 +1,13 @@
 import Head from 'next/head'
-import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
-import Generator from '@/components/generator/Generator'
-import { Canvas } from '@react-three/fiber'
-import KeyboardControls from '@/components/scene/controls/KeyboardControls'
-import LookControls from '@/components/scene/controls/LookControls'
 import { useEffect } from 'react'
-import InitCamera from '@/components/scene/InitCamera'
-import { TextureProvider } from '@/components/TextureContext'
-
-const inter = Inter( { subsets: [ 'latin' ] } )
+import dynamic from 'next/dynamic'
 
 export default function Home() {
+
+	const BackroomCanvas = dynamic( () => import( "../components/BackroomCanvas" ), {
+		ssr: false,
+	} );
 
 	useEffect( () => {
 		document.addEventListener( 'contextmenu', ( e ) => {
@@ -28,17 +24,7 @@ export default function Home() {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<main className={styles.main}>
-				<Canvas resize={{ scroll: true }} >
-					<ambientLight />
-					<pointLight position={[ 10, 10, 10 ]} />
-					<InitCamera />
-					<KeyboardControls />
-					<LookControls />
-					<gridHelper args={[ 100, 100, 'white', 'white' ]} />
-					<TextureProvider>
-						<Generator />
-					</TextureProvider>
-				</Canvas >
+				<BackroomCanvas />
 			</main>
 		</>
 	)
