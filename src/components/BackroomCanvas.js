@@ -11,14 +11,14 @@ import PostProcessing from '@/components/PostProcessing'
 
 export default function BackroomCanvas() {
 	return (
-		<Canvas resize={{ scroll: true }}>
+		<Canvas resize={{ scroll: true }} >
 			<Perf />
 			<ambientLight />
 			<pointLight position={[ 10, 10, 10 ]} />
 			<InitCamera />
 			<KeyboardControls />
 			<LookControls />
-			<gridHelper args={[ 100, 100, 'white', 'white' ]} />
+			{/* <gridHelper args={[ 100, 100, 'white', 'white' ]} /> */}
 			<TextureProvider>
 				<Generator />
 			</TextureProvider>

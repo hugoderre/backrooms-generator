@@ -1,7 +1,7 @@
-'use client';
+
 
 import { Bloom, DepthOfField, EffectComposer, Glitch, Noise, Vignette } from "@react-three/postprocessing";
-// import { GlitchMode } from "postprocessing";
+import { BlendFunction, GlitchMode } from "postprocessing";
 
 // import dynamic from 'next/dynamic'
 
@@ -14,10 +14,10 @@ export default function PostProcessing( props ) {
 
 	return (
 		<EffectComposer>
-			{/* <DepthOfField focusDistance={0} focalLength={0.02} bokehScale={2} height={480} /> */}
-			{/* <Bloom luminanceThreshold={0.4} luminanceSmoothing={0.9} height={300} />
+			<DepthOfField blendFunction={BlendFunction.NORMAL} focusDistance={0} focalLength={0.02} bokehScale={2} height={480} />
+			<Bloom luminanceThreshold={0.4} luminanceSmoothing={0.6} height={300} />
 			<Noise opacity={0.2} />
-			<Vignette eskil={false} offset={0.1} darkness={1.1} /> */}
+			<Vignette eskil={false} offset={0.1} darkness={1.1} />
 			{/* <Glitch
 				delay={[ 1.5, 3.5 ]} // min and max glitch delay
 				duration={[ 0.6, 1.0 ]} // min and max glitch duration

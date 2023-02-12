@@ -18,13 +18,13 @@ export default function Wall( props ) {
 			{
 				props.seal && (
 					<>
-						<mesh // Top
+						{/* <mesh // Top
 							position={[ props.position[ 0 ], props.position[ 1 ] + ( props.geometry[ 1 ] / 2 ) - 0.05, props.position[ 2 ] ]}
 							rotation={props.rotation}
 						>
 							<boxGeometry args={[ props.geometry[ 0 ] + 0.02, 0.05, props.geometry[ 2 ] + 0.02 ]} />
 							<meshStandardMaterial map={floorMap} color={'#e3dfd3'} />
-						</mesh>
+						</mesh> */}
 						<mesh // Bottom
 							position={[ props.position[ 0 ], props.position[ 1 ] - ( props.geometry[ 1 ] / 2 ) + 0.05, props.position[ 2 ] ]}
 							rotation={props.rotation}

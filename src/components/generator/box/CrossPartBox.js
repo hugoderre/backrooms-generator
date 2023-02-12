@@ -1,16 +1,29 @@
-import { useContext, useRef } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { TextureContext } from '@/components/TextureContext'
 import Wall from './part/Wall';
 import { useFrame, useThree } from '@react-three/fiber';
-import { isBoxTooFarFromCamera } from './BoxUtils';
+import { isBoxCloseFromCamera } from './BoxUtils';
 
 export default function CrossPartBox( props ) {
 	const { floorMap, wallMap, ceilingMap } = useContext( TextureContext );
 	const ref = useRef()
 	const { camera } = useThree()
+	const [ isVisible, setIsVisible ] = useState( false )
+
+	useEffect( () => {
+		if ( isVisible ) {
+			props.generate( props )
+		}
+	}, [ isVisible ] )
 
 	useFrame( () => {
-		ref.current.visible = isBoxTooFarFromCamera( props.position, camera )
+		if ( isBoxCloseFromCamera( props.position, camera ) ) {
+			ref.current.visible = true
+			setIsVisible( ref.current.visible )
+		} else {
+			ref.current.visible = false
+			setIsVisible( ref.current.visible )
+		}
 	} )
 
 	return (
