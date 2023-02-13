@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef, useState } from 'react'
 import { TextureContext } from '@/components/TextureContext'
 import Wall from './part/Wall'
 import { useFrame, useThree } from '@react-three/fiber';
-import { isBoxCloseFromCamera } from './BoxUtils';
+import { isVisibleBox } from './BoxUtils';
 
 export default function RegularBox( props ) {
 	const { floorMap, wallMap, ceilingMap } = useContext( TextureContext );
@@ -17,7 +17,7 @@ export default function RegularBox( props ) {
 	}, [ isVisible ] )
 
 	useFrame( () => {
-		if ( isBoxCloseFromCamera( props.position, camera ) ) {
+		if ( isVisibleBox( ref.current, camera ) ) {
 			ref.current.visible = true
 			setIsVisible( ref.current.visible )
 		} else {
@@ -27,7 +27,7 @@ export default function RegularBox( props ) {
 	} )
 
 	return (
-		<group ref={ref} position={props.position} scale={props.scale} >
+		<group ref={ref} position={props.position} scale={props.scale} dispose={null}>
 			<Wall position={[ 0, 0, 0 ]} geometry={[ 1, 0.1, 1 ]} map={floorMap} />
 
 			{props.visibleWalls.top && (

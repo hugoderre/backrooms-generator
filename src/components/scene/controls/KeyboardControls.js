@@ -23,7 +23,6 @@ const useCodes = () => {
 
 export default function KeyboardControls() {
 	const { camera } = useThree()
-	camera.position.set( 0, 5, 5 )
 	const code = useCodes()
 	const vec = new Vector3()
 

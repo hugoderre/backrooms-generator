@@ -5,20 +5,7 @@ import CrossPartBox from './box/CrossPartBox'
 
 export default function Generator( props ) {
 	const initialPosition = [ 0, 0, 0 ]
-	const [ boxes, setBoxes ] = useState( [ <RegularBox
-		type={'regular'}
-		key={initialPosition.join()}
-		position={initialPosition}
-		scale={2}
-		generate={generate}
-		visibleWalls={{
-			top: false,
-			back: true,
-			left: true,
-			right: true,
-		}}
-	/>
-	] )
+	const [ boxes, setBoxes ] = useState( [ ...generateEmptyBoxPattern( initialPosition, 24, 4 ) ] )
 
 	let newBoxes = []
 
@@ -86,11 +73,11 @@ export default function Generator( props ) {
 		return generatedBoxesInProcess
 	}
 
-	function generateEmptyBoxPattern( basePosition ) {
+	function generateEmptyBoxPattern( basePosition, quantity = null, row = null ) {
 		const newBoxes = []
 		const [ x, y, z ] = basePosition
-		const quantity = getRandomEvenInt( 4, 8 )
-		const row = getRandomEvenInt( 2, 4 )
+		quantity = quantity ?? getRandomEvenInt( 4, 8 )
+		row = row ?? getRandomEvenInt( 2, 4 )
 		for ( let i = 0; i < quantity; i++ ) {
 			const rowNumber = Math.floor( i / row )
 			const colNumber = i % row
