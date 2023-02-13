@@ -12,7 +12,7 @@ import PostProcessing from '@/components/PostProcessing'
 export default function BackroomCanvas() {
 	return (
 		<Canvas resize={{ scroll: true }} >
-			<Perf />
+			{process.env.NEXT_PUBLIC_SHOW_PERF && <Perf />}
 			<ambientLight />
 			<pointLight position={[ 10, 10, 10 ]} />
 			<InitCamera />
